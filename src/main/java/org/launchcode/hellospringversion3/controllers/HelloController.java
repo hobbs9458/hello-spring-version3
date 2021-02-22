@@ -3,6 +3,7 @@ package org.launchcode.hellospringversion3.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+@ResponseBody
 @Controller
 public class HelloController {
 
@@ -13,48 +14,47 @@ public class HelloController {
 //        return "Hello, Spring";
 //    }
 
-    @GetMapping("test")
-    public String test() {
-        return "test";
-    }
 
     //handles request at path /goodbye
     @GetMapping("goodbye")
-    @ResponseBody
     public String goodbye() {
         return "Goodbye, Spring";
     }
 
     //handler for requests from /hello?coder=whateverIsTypedHereWillBePassedAsAnArgumentToThisEndPointMethod
-    @GetMapping("hello")
-    @ResponseBody
-    public String hello(@RequestParam String name, @RequestParam String favoriteColor,
-                        @RequestParam String favoriteMovie, @RequestParam String religion) {
-        return "Hello " + name + "\n" +
-                "We see here your favorite color is " + favoriteColor + "\n" +
-                "Your favorite movie is " + favoriteMovie + "\n" +
-                "Your religion is " + religion;
-    }
+//    @GetMapping("hello")
+//    public String hello(@RequestParam String name, @RequestParam String favoriteColor,
+//                        @RequestParam String favoriteMovie, @RequestParam String religion) {
+//        return "Hello " + name + "\n" +
+//                "We see here your favorite color is " + favoriteColor + "\n" +
+//                "Your favorite movie is " + favoriteMovie + "\n" +
+//                "Your religion is " + religion;
+//    }
 
     //handles requests of the form hello/launchcode
     @GetMapping("hello/{name}")
-    @ResponseBody
     public String helloWithPathParam(@PathVariable String name) {
         return "Hello, " + name;
     }
 
+    @RequestMapping(value="form-handler", method = {RequestMethod.POST})
+    public static String formHandler(@RequestParam String language, @RequestParam String name) {
+        return language + " " + name;
+    }
 
     @GetMapping("form")
-    @ResponseBody
     public String helloForm() {
         return "<html>" +
                 "<body>" +
-                "<form action='hello'>" + //action tells form where to submit
+                "<form action='form-handler'>" + //action tells form where to submit
                 "<input type='text' name='name' placeholder='name'/>" +
-                "<input type='text' name='favoriteColor' placeholder='favorite color'/>" +
-                "<input type='text' name='favoriteMovie' placeholder='favorite movie'/>" +
-                "<input type='text' name='religion' placeholder='religion'/>" +
-                "<input type='submit' value='Greet me'/>" +
+                "<select name='language'>" +
+                "<option value='Hello'>English</option>" +
+                "<option value='Hola'>Spanish</option>" +
+                "<option value='Marhaba'>Aramaic</option>" +
+                "<option value='Bonjour'>French</option>" +
+                "<option value='Hallo'>German</option>" +
+                "</select>" +
                 "</form>" +
                 "</body>" +
                 "</html>";
