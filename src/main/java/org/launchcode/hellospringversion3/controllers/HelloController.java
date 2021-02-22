@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@ResponseBody
+@RequestMapping("hello")
 public class HelloController {
 
     //handles request at path /hello
@@ -15,14 +17,12 @@ public class HelloController {
 
     //handles request at path /goodbye
     @GetMapping("goodbye")
-    @ResponseBody
     public String goodbye() {
         return "Goodbye, Spring";
     }
 
     //handler for requests from /hello?coder=whateverIsTypedHereWillBePassedAsAnArgumentToThisEndPointMethod
-    @GetMapping("hello")
-    @ResponseBody
+    @RequestMapping(value="hello", method={RequestMethod.GET, RequestMethod.POST})
     public String hello(@RequestParam String name, @RequestParam String favoriteColor,
                         @RequestParam String favoriteMovie, @RequestParam String religion) {
         return "Hello " + name + "\n" +
@@ -33,18 +33,16 @@ public class HelloController {
 
     //handles requests of the form hello/launchcode
     @GetMapping("hello/{name}")
-    @ResponseBody
     public String helloWithPathParam(@PathVariable String name) {
         return "Hello, " + name;
     }
 
 
     @GetMapping("form")
-    @ResponseBody
     public String helloForm() {
         return "<html>" +
                 "<body>" +
-                "<form action='hello'>" + //action tells form where to submit
+                "<form action='hello' method='POST'>" + //action tells form where to submit
                 "<input type='text' name='name' placeholder='name'/>" +
                 "<input type='text' name='favoriteColor' placeholder='favorite color'/>" +
                 "<input type='text' name='favoriteMovie' placeholder='favorite movie'/>" +
