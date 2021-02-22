@@ -13,6 +13,11 @@ public class HelloController {
 //        return "Hello, Spring";
 //    }
 
+    @GetMapping("test")
+    public String test() {
+        return "test";
+    }
+
     //handles request at path /goodbye
     @GetMapping("goodbye")
     @ResponseBody
